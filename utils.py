@@ -50,15 +50,17 @@ def normalize_dataset(dataset, minmax):
 def generate_args(var_function):
     args = list()
     args.append(init)
+
     i = 0
     while len(args) < 30:
         candidate_args = args[len(args) - 1].copy()
-        candidate_args[i % 3] = candidate_args[i % 3] + (1 if i % 2 == 0 else - 1)
+        candidate_args[i % 3] = candidate_args[i % 3] + (1 if i % 2 == 0 else -1)
         # sigmoid bounds
         # we could pass those depending on the activation function we use
         # if 0 < result < 1:
         args.append(candidate_args)
         i += 1
+
     return args
 
 

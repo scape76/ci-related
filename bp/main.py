@@ -73,14 +73,14 @@ def predict(inputs, network):
 
 epochs = 10000
 
-training_amount = 24
+training_amount = 26
 test_amount = 30 - training_amount
 learning_rate = 0.1
 
 my_variant_function = var7_func
 
 if __name__ == '__main__':
-    network = generateNetwork(3, 4, 2)
+    network = generateNetwork(3, 6, 2)
     dataset = generate_dataset(var7_func)
     expected = get_expected_values(dataset, my_variant_function)
 
@@ -98,18 +98,21 @@ if __name__ == '__main__':
 
     testing_dataset = dataset[training_amount:]
 
-    error = 0.0
+    errors = []
 
-    for i in range(test_amount):
-        print('-----------------------------')
-        print('inputs: ', testing_dataset[i])
-        res = predict(testing_dataset[i], network)
-        Y = expected[training_amount + i]
-        error += fabs(res[0] - Y[0])
-        error += fabs(res[1] - Y[1])
-        print('result: ', res)
-        print('expected: ', Y)
+    for _ in range(10000):
+        error = 0.0
+        for i in range(test_amount):
+            print('-----------------------------')
+            print('inputs: ', testing_dataset[i])
+            res = predict(testing_dataset[i], network)
+            Y = expected[training_amount + i]
+            error += fabs(res[0] - Y[0])
+            error += fabs(res[1] - Y[1])
+            print('result: ', res)
+            print('expected: ', Y)
+        errors.append(error / test_amount * 2)
 
-    error = error / test_amount * 2
+    averaged_error = sum(errors) / len(errors)
 
-    print('error: ', error)
+    print('error: ', averaged_error)
