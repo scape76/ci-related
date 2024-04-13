@@ -1,7 +1,7 @@
 from utils import generateNetwork, sigmoid, sigmoid_derivative, generate_dataset, var7_func, get_expected_values
 
 
-# back propagation realization
+# back propagation implementation
 
 # see https://people.engr.tamu.edu/guni/csce421/files/AI_Russell_Norvig.pdf
 # page 734
@@ -79,7 +79,7 @@ learning_rate = 0.1
 my_variant_function = var7_func
 
 if __name__ == '__main__':
-    network = generateNetwork(3, 3, 2)
+    network = generateNetwork(3, 4, 2)
     dataset = generate_dataset(var7_func)
     expected = get_expected_values(dataset, my_variant_function)
 

@@ -6,7 +6,6 @@ from random import random
 
 init = [2, 5, 4]
 
-
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
