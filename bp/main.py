@@ -8,39 +8,22 @@ from utils import generateNetwork, sigmoid, sigmoid_derivative, generate_dataset
 # examples - set of examples, each with input vector X and output vector Y
 # network - multilayer with L layers, weights w(i,j), activation function g
 def backward_propagate_error(expected, network):
-    for i in range(len(network[1])):
-        neuron = network[1][i]
-        neuron['delta'] = sigmoid_derivative(neuron['output']) * (neuron['output'] - expected[i])
-
-    for i in range(len(network[0])):
-        errors = 0
-        for j in range(len(network[1])):
-            output_neuron = network[1][j]
-            errors += output_neuron['weights'][i] * output_neuron['delta']
-
-        neuron = network[0][i]
-        neuron['delta'] = sigmoid_derivative(neuron['output']) * errors
+    for l in reversed(range(len(network))):
+        layer = network[l]
+        # if it's output layer
+        if l == len(network) - 1:
+            for j in range(len(layer)):
+                neuron = layer[j]
+                neuron['delta'] = sigmoid_derivative(neuron['output']) * (neuron['output'] - expected[j])
+        else:
+            for j in range(len(layer)):
+                error = 0.0
+                for neuron in network[l + 1]:
+                    error += neuron['weights'][j] * neuron['delta']
+                curr_neuron = layer[j]
+                curr_neuron['delta'] = sigmoid_derivative(curr_neuron['output']) * error
 
     return network
-
-
-# def backward_propagate_error(network, expected):
-#     for i in reversed(range(len(network))):
-#         layer = network[i]
-#         errors = list()
-#         if i != len(network) - 1:
-#             for j in range(len(layer)):
-#                 error = 0.0
-#                 for neuron in network[i + 1]:
-#                     error += (neuron['weights'][j] * neuron['delta'])
-#                 errors.append(error)
-#         else:
-#             for j in range(len(layer)):
-#                 neuron = layer[j]
-#                 errors.append(neuron['output'] - expected[j])
-#         for j in range(len(layer)):
-#             neuron = layer[j]
-#             neuron['delta'] = errors[j] * sigmoid_derivative(neuron['output'])
 
 
 # update every weight in network
@@ -60,23 +43,21 @@ def activate(weights, inputs):
     return activation
 
 
-# this function currently works on an assumption
-# that we have only 1 hidden layer
-# it's better to generalize algorithm, so it would work
-# regardless of the layers amount
 def forward_propagation(inputs, network):
-    hidden_values = list()
-    # go through inputs and get values for hidden layer
-    for i in range(len(network[0])):
-        activation = activate(network[0][i]['weights'], inputs)
-        value = sigmoid(activation)
-        network[0][i]['output'] = value
-        hidden_values.append(value)
-    # go through hidden layer and get values for outputs
-    for i in range(len(network[1])):
-        activation = activate(network[1][i]['weights'], hidden_values)
-        network[1][i]['output'] = sigmoid(activation)
-
+    for l in range(len(network)):
+        layer = network[l]
+        # if it's 1st hidden layer
+        if l == 0:
+            for neuron in layer:
+                activation = activate(neuron['weights'], inputs)
+                output = sigmoid(activation)
+                neuron['output'] = output
+        else:
+            inputs = [neuron['output'] for neuron in network[l - 1]]
+            for neuron in layer:
+                activation = activate(neuron['weights'], inputs)
+                output = sigmoid(activation)
+                neuron['output'] = output
     return network
 
 
