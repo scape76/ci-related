@@ -1,4 +1,4 @@
-from utils import generateNetwork, sigmoid, sigmoid_derivative, generate_dataset, var7_func
+from utils import generateNetwork, sigmoid, sigmoid_derivative, generate_dataset, var7_func, get_expected_values
 
 
 # back propagation realization
@@ -42,12 +42,15 @@ def backward_propagate_error(expected, network):
 #             neuron = layer[j]
 #             neuron['delta'] = errors[j] * sigmoid_derivative(neuron['output'])
 
+
 # update every weight in network
-def update_weights(network, inputs, learning_factor):
+def update_weights(network, inputs, learning_rate):
     for l in range(len(network)):
-        for i in range(len(network[l])):
-            for j in range(len(network[l][i]['weights'])):
-                network[l][i]['weights'][j] -= network[l][i]['delta'] * inputs[j] * learning_factor
+        if l != 0:
+            inputs = [neuron['output'] for neuron in network[l - 1]]
+        for neuron in network[l]:
+            for i in range(len(inputs)):
+                neuron['weights'][i] -= neuron['delta'] * inputs[i] * learning_rate
 
 
 def activate(weights, inputs):
@@ -57,6 +60,10 @@ def activate(weights, inputs):
     return activation
 
 
+# this function currently works on an assumption
+# that we have only 1 hidden layer
+# it's better to generalize algorithm, so it would work
+# regardless of the layers amount
 def forward_propagation(inputs, network):
     hidden_values = list()
     # go through inputs and get values for hidden layer
@@ -74,7 +81,7 @@ def forward_propagation(inputs, network):
 
 
 def predict(inputs, network):
-    network = forward_propagation(inputs, network)
+    forward_propagation(inputs, network)
     outputs = []
     for i in range(len(network[1])):
         outputs.append(network[1][i]['output'])
@@ -86,14 +93,18 @@ epochs = 10000
 
 training_amount = 24
 test_amount = 30 - training_amount
+learning_rate = 0.1
+
+my_variant_function = var7_func
 
 if __name__ == '__main__':
     network = generateNetwork(3, 3, 2)
-    [dataset, expected] = generate_dataset()
+    dataset = generate_dataset(var7_func)
+    expected = get_expected_values(dataset, my_variant_function)
 
     training_dataset = dataset[0:training_amount]
 
-    for i in range(epochs):
+    for _ in range(epochs):
         for i in range(training_amount):
             # expected results
             Y = expected[i]
@@ -101,7 +112,7 @@ if __name__ == '__main__':
             X = training_dataset[i]
             forward_propagation(X, network)
             backward_propagate_error(Y, network)
-            update_weights(network, X, 0.1)
+            update_weights(network, X, learning_rate)
 
     testing_dataset = dataset[training_amount:]
 

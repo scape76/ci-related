@@ -2,43 +2,9 @@
 import math
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-from random import random, shuffle
+from random import random
 
-init_args = [
-    [4, 6, 7],
-    [4, 6, 8],
-    [4, 6, 9],
-    [5, 6, 7],
-    [5, 6, 8],
-    [5, 6, 9],
-    [5, 7, 7],
-    [5, 7, 8],
-    [5, 7, 9],
-    [5, 8, 7],
-    [5, 8, 8],
-    [6, 8, 9],
-    [6, 6, 7],
-    [6, 6, 8],
-    [6, 6, 9],
-    [6, 7, 7],
-    [6, 7, 8],
-    [6, 7, 9],
-    [6, 8, 7],
-    [6, 8, 8],
-    [6, 8, 9],
-    [7, 7, 7],
-    [7, 7, 8],
-    [7, 7, 9],
-    [7, 8, 7],
-    [7, 8, 8],
-    [7, 8, 9],
-    [8, 8, 7],
-    [8, 8, 8],
-    [8, 8, 9],
-    # [8, 9, 7]
-]
-
-shuffle(init_args)
+init = [2, 5, 4]
 
 
 # each neuron will have properties like weights and value
@@ -82,23 +48,45 @@ def normalize_dataset(dataset, minmax):
             row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])
 
 
-def generate_dataset():
-    minmax = dataset_minmax(init_args)
-    normalize_dataset(init_args, minmax)
+def generate_args(var_function):
+    args = list()
+    args.append(init)
+    i = 0
+    while len(args) < 30:
+        candidate_args = args[len(args) - 1].copy()
+        candidate_args[i % 3] = candidate_args[i % 3] + (1 if i % 2 == 0 else - 1)
+        result = var_function(candidate_args[0], candidate_args[1], candidate_args[2])
+        # sigmoid bounds
+        # we could pass those depending on the activation function we use
+        if 0 < result < 1:
+            args.append(candidate_args)
+        i += 1
+    return args
 
+
+def generate_dataset(var_function):
+    dataset = generate_args(var_function)
+
+    minmax = dataset_minmax(dataset)
+    normalize_dataset(dataset, minmax)
+
+    return dataset
+
+
+def get_expected_values(dataset, var_function):
     results = []
-    for i in range(len(init_args)):
-        res = var1_func(init_args[i][0], init_args[i][1], init_args[i][2])
+    for i in range(len(dataset)):
+        res = var_function(dataset[i][0], dataset[i][1], dataset[i][2])
         results.append(res)
 
     average = sum(results) / len(results)
 
     expected = []
 
-    for i in range(len(init_args)):
+    for i in range(len(dataset)):
         y = list()
         y.append(results[i])
         y.append(1 if results[i] > average else 0)
         expected.append(y)
 
-    return [init_args, expected]
+    return expected
