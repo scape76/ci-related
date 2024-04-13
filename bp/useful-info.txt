@@ -1,0 +1,22 @@
+***To read: https://people.engr.tamu.edu/guni/csce421/files/AI_Russell_Norvig.pdf***
+page 733, chapter 18.7.4 (Learning in multilayer networks)
+
+Summarized:
+
+The major complication comes from the addition of hidden layers to the network.
+Whereas the error y − hw at the output layer is clear, the error at the hidden layers seems
+mysterious because the training data do not say what value the hidden nodes should have.
+Fortunately, it turns out that we can back-propagate the error from the output layer to theBACK-PROPAGATION
+hidden layers. The back-propagation process emerges directly from a derivation of the overall
+error gradient. First, we will describe the process with an intuitive justification; then, we will
+show the derivation.
+
+To update the connections between the input units and the hidden units, we need to define a
+quantity analogous to the error term for output nodes. Here is where we do the error backpropagation.
+The idea is that hidden node j is “responsible” for some fraction of the error Δk
+in each of the output nodes to which it connects. Thus, the Δk values are divided according
+to the strength of the connection between the hidden node and the output node and are propagated
+back to provide the Δj values for the hidden layer. The propagation rule for the Δ
+values is the following:
+
+Δj = g′(inj ) ∑kw(j,k)Δk.
