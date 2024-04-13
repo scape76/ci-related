@@ -66,8 +66,12 @@ def generate_args(var_function):
 def generate_dataset(var_function):
     dataset = generate_args(var_function)
 
-    minmax = dataset_minmax(dataset)
-    normalize_dataset(dataset, minmax)
+    # normalizing is actually redundant
+    # because my dataset is already normalized
+    # by check on line 60
+
+    # minmax = dataset_minmax(dataset)
+    # normalize_dataset(dataset, minmax)
 
     return dataset
 
