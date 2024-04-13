@@ -1,4 +1,5 @@
 from utils import generateNetwork, sigmoid, sigmoid_derivative, generate_dataset, var7_func, get_expected_values
+from math import fabs
 
 
 # back propagation implementation
@@ -97,10 +98,18 @@ if __name__ == '__main__':
 
     testing_dataset = dataset[training_amount:]
 
+    error = 0.0
+
     for i in range(test_amount):
         print('-----------------------------')
         print('inputs: ', testing_dataset[i])
         res = predict(testing_dataset[i], network)
         Y = expected[training_amount + i]
+        error += fabs(res[0] - Y[0])
+        error += fabs(res[1] - Y[1])
         print('result: ', res)
         print('expected: ', Y)
+
+    error = error / test_amount * 2
+
+    print('error: ', error)

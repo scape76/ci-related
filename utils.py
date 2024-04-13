@@ -6,6 +6,7 @@ from random import random
 
 init = [2, 5, 4]
 
+
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
@@ -53,11 +54,10 @@ def generate_args(var_function):
     while len(args) < 30:
         candidate_args = args[len(args) - 1].copy()
         candidate_args[i % 3] = candidate_args[i % 3] + (1 if i % 2 == 0 else - 1)
-        result = var_function(candidate_args[0], candidate_args[1], candidate_args[2])
         # sigmoid bounds
         # we could pass those depending on the activation function we use
-        if 0 < result < 1:
-            args.append(candidate_args)
+        # if 0 < result < 1:
+        args.append(candidate_args)
         i += 1
     return args
 
@@ -65,12 +65,12 @@ def generate_args(var_function):
 def generate_dataset(var_function):
     dataset = generate_args(var_function)
 
-    # normalizing is actually redundant
-    # because my dataset is already normalized
-    # by check on line 60
+    # normalizing will be redundant
+    # if you uncomment line 59
+    minmax = dataset_minmax(dataset)
+    normalize_dataset(dataset, minmax)
 
-    # minmax = dataset_minmax(dataset)
-    # normalize_dataset(dataset, minmax)
+    print(dataset)
 
     return dataset
 
