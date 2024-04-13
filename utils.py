@@ -7,7 +7,6 @@ from random import random
 init = [2, 5, 4]
 
 
-# each neuron will have properties like weights and value
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
