@@ -128,4 +128,4 @@ if __name__ == '__main__':
             best_individual, best_score = genetic_algorithm(population_size, number_of_bits, f_item['function'],
                                                             f_item['bounds'],
                                                             s_item['function'], epochs)
-    print('best ', best_individual, best_score)
+            print('best ', best_individual, best_score)
