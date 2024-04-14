@@ -1,5 +1,5 @@
 from numpy.random import randint
-from utils import mcCormick, holder, goldsteinPrice
+from utils import mcCormick, holder, goldsteinPrice, inbreeding, tournament_selection, panximia, outcrossing
 from random import random
 
 
@@ -34,19 +34,6 @@ def generate_population(size, bounds, number_of_bits):
     # 010011001101101 where the first half of the string
     # is the x argument, and the second is the y argument
     return [randint(0, 2, number_of_bits * len(bounds)).tolist() for _ in range(size)]
-
-
-def tournament_selection(population, scores, k=3):
-    selected = []
-    for i in range(len(population)):
-        # first random selection
-        selection_ix = randint(len(population))
-        for ix in randint(0, len(population), k - 1):
-            # check if better (e.g. perform a tournament)
-            if scores[ix] < scores[selection_ix]:
-                selection_ix = ix
-        selected.append(population[selection_ix])
-    return selected
 
 
 def crossover(p1, p2, cross_rate):
@@ -110,14 +97,35 @@ def genetic_algorithm(population_size, number_of_bits, fitness_function, bounds,
 epochs = 1000
 population_size = 100
 cross_rate = 0.9
-# 1.0 / (numberOfBits * 2) (how many bits chromosome takes)
 mutation_rate = 0.1
-inversion_rate = 0.1
 number_of_bits = 16
 
-bounds = [[-2, 2], [-2, 2]]
+fitness_functions = [{
+    'name': 'Mc Cormick',
+    'function': mcCormick,
+    'bounds': [[-1.5, 4], [-3, 4]]
+},
+    {
+        'name': 'Goldstein Price',
+        'function': goldsteinPrice,
+        'bounds': [[-2, 2], [-2, 2]]
+    },
+    {
+        'name': 'Holder',
+        'function': holder,
+        'bounds': [[-10, 10], [-10, 10]]
+    }
+]
+
+selection_functions = [{'name': 'inbreeding', 'function': inbreeding},
+                       {'name': 'tournament_selection', 'function': tournament_selection},
+                       {'name': 'panximia', 'function': panximia}, {'name': 'outcrossing', 'function': outcrossing}]
 
 if __name__ == '__main__':
-    best_individual, best_score = genetic_algorithm(population_size, number_of_bits, mcCormick, [[-1.5, 4], [-3, 4]],
-                                                    tournament_selection, epochs)
+    for s_item in selection_functions:
+        for f_item in fitness_functions:
+            print('-----------------------------', s_item['name'], f_item['name'], '-----------------------------')
+            best_individual, best_score = genetic_algorithm(population_size, number_of_bits, f_item['function'],
+                                                            f_item['bounds'],
+                                                            s_item['function'], epochs)
     print('best ', best_individual, best_score)
