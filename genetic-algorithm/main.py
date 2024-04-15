@@ -1,6 +1,7 @@
 from numpy.random import randint
 from utils import mcCormick, holder, goldsteinPrice, inbreeding, tournament_selection, panximia, outcrossing
 from random import random
+from math import fabs
 
 
 def decode(bounds, number_of_bits, bitstring):
@@ -97,23 +98,26 @@ def genetic_algorithm(population_size, number_of_bits, fitness_function, bounds,
 epochs = 1000
 population_size = 100
 cross_rate = 0.9
-mutation_rate = 0.1
+mutation_rate = 0.7
 number_of_bits = 16
 
 fitness_functions = [{
     'name': 'Mc Cormick',
     'function': mcCormick,
-    'bounds': [[-1.5, 4], [-3, 4]]
+    'bounds': [[-1.5, 4], [-3, 4]],
+    'expected': -1.9133
 },
     {
         'name': 'Goldstein Price',
         'function': goldsteinPrice,
-        'bounds': [[-2, 2], [-2, 2]]
+        'bounds': [[-2, 2], [-2, 2]],
+        'expected': 3
     },
     {
         'name': 'Holder',
         'function': holder,
-        'bounds': [[-10, 10], [-10, 10]]
+        'bounds': [[-10, 10], [-10, 10]],
+        'expected': -19.2085
     }
 ]
 
@@ -121,11 +125,32 @@ selection_functions = [{'name': 'inbreeding', 'function': inbreeding},
                        {'name': 'tournament_selection', 'function': tournament_selection},
                        {'name': 'panximia', 'function': panximia}, {'name': 'outcrossing', 'function': outcrossing}]
 
+# if __name__ == '__main__':
+#     for f_item in fitness_functions:
+#         for s_item in selection_functions:
+#             print('-----------------------------', s_item['name'], f_item['name'], '-----------------------------')
+#             best_individual, best_score = genetic_algorithm(population_size, number_of_bits, f_item['function'],
+#                                                             f_item['bounds'],
+#                                                             s_item['function'], epochs)
+#             error = fabs(best_score - f_item['expected'])
+#             print('best ', best_individual, best_score)
+#             print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+#             print('error', error)
+#             print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+#
+#         averaged_error = error / len(selection_functions)
+
 if __name__ == '__main__':
-    for s_item in selection_functions:
-        for f_item in fitness_functions:
-            print('-----------------------------', s_item['name'], f_item['name'], '-----------------------------')
-            best_individual, best_score = genetic_algorithm(population_size, number_of_bits, f_item['function'],
-                                                            f_item['bounds'],
-                                                            s_item['function'], epochs)
-            print('best ', best_individual, best_score)
+    for f_item in fitness_functions:
+        print('-----------------------------', selection_functions[1]['name'], f_item['name'],
+              '-----------------------------')
+        best_individual, best_score = genetic_algorithm(population_size, number_of_bits, f_item['function'],
+                                                        f_item['bounds'],
+                                                        selection_functions[1]['function'], epochs)
+        error = fabs(best_score - f_item['expected'])
+        print('best ', best_individual, best_score)
+        print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        print('error', error)
+        print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+
+    averaged_error = error / len(selection_functions)

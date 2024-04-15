@@ -20,3 +20,47 @@ back to provide the Δj values for the hidden layer. The propagation rule for th
 values is the following:
 
 Δj = g′(inj ) ∑kw(j,k)Δk.
+
+## Advantages:
+<ul>
+    <li>
+    Applicability: Backpropagation can be applied to a wide range of problems, making it a versatile algorithm for training neural networks.
+    It's commonly used in applications like image recognition, natural language processing, and other complex tasks.
+    </li>
+    <li>
+    Efficiency: Compared to some other methods, backpropagation is often more computationally efficient for large neural networks.
+    It computes the gradient of the loss function with respect to the weights of the network for a single input-output example, and does so efficiently, unlike some naive approaches.
+    </li>
+    <li>
+    Deeper Insights: Backpropagation helps provide insights into the workings of the neural network by identifying the contribution of each neuron to the final output error.
+    </li>
+</ul>
+
+## Disadvantages:
+
+<ul>
+    <li>
+     Local Minima: The biggest disadvantage of backpropagation is that it can get stuck in local minima while trying to minimize the loss function.
+     However, in practice, especially in high dimensional spaces, this is less of a problem than often assumed
+    </li>
+    <li>
+     Vanishing/Exploding Gradients: Backpropagation can suffer from the vanishing or exploding gradient problems,
+     especially in deep neural networks and recurrent neural networks. This is when gradients become either too small or too large, making it difficult for the network to learn effectively.
+    </li>
+    <li>
+        Requires Labelled Data: Backpropagation requires labelled data to train the network,
+        which can be a disadvantage in scenarios where such data is scarce or expensive to obtain.
+    </li>
+     <li>
+        Requires Labelled Data: Backpropagation requires labelled data to train the network,
+        which can be a disadvantage in scenarios where such data is scarce or expensive to obtain.
+    </li>
+     <li>
+     Difficulty in Understanding: The internal workings of a neural network using backpropagation can be hard to interpret. As networks grow in size and complexity,
+     understanding the exact influence and weight of each input can become challenging, leading to them often being referred to as "black boxes".
+    </li>
+    <li>
+        Parameter Tuning: Neural networks trained with backpropagation often require careful tuning of hyperparameters,
+        such as the learning rate, number of layers, number of units per layer, etc. These settings can greatly impact the success of the training process and can require a lot of computational resources to optimize.
+    </li>
+</ul>
