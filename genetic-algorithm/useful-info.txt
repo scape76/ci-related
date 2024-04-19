@@ -1,0 +1,37 @@
+Author of the algorithm: John Holland
+
+− панміксія − батьки вибираються з популяції випадковим
+чином, тому один батько може складати пару з самим собою,
+або брати участь в декількох парах;
+− селекція − вибираються такі батьки, у яких значення
+функції пристосованості вище середнього значення по
+популяції;
+− інбридинг − перший батько вибирається випадковим
+чином, а другим батьком з більшою ймовірністю є індивід
+популяції найближчий до першого (зауважимо, що відстань
+може визначатись як між генотипами, так і між фенотипами);
+− аутбридинг − перший батько вибирається випадковим
+чином, а другим батьком з більшою ймовірністю є індивід
+популяції найвіддаленіший від першого (справедливе
+зауваження як і до інбридінгу);
+
+Why use Genetic Algorithm over a Gradient-based Algorithm?
+While the gradient-based methods have proven to be valuable time and time again, there are certain limitations to them that make using genetic algorithms enticing. The crucial limitations include the following-
+
+1. Gradient-based optimization algorithms require continuous derivable objective functions,
+whereas direct search algorithms like generic algorithms can work with non-continuous objective functions and domains.
+2. Gradient-based algorithms are less robust as they depend strongly on the starting point, while genetic algorithms don’t.
+3. Another failure of gradient-based methods is that they are susceptible to numerical noise, whereas genetic algorithms
+aren’t bothered by derivatives approximations or any numerical noise.
+4. Lastly, the gradient-based methods seem to have limited success when dealing with problems with multiple
+local optima, and genetic algorithms are unfazed by such issues.
+
+What is the use of genetic algorithms?
+Genetic algorithms are typically used to search results and find optimal solutions to problems that are usually
+highly complex and tough to represent. Genetic algorithms in machine learning and AI have become increasingly common.
+
+What are the three stages of a genetic algorithm?
+The three stages of the genetic algorithm are as follows:
+crossover — swapping genetic material
+mutation — random gene alterations
+selection — only the fittest survive

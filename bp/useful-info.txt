@@ -1,3 +1,5 @@
+Author of the algorithm: Paul Werbos
+
 ***To read: https://people.engr.tamu.edu/guni/csce421/files/AI_Russell_Norvig.pdf***
 page 733, chapter 18.7.4 (Learning in multilayer networks)
 
@@ -20,6 +22,7 @@ back to provide the Δj values for the hidden layer. The propagation rule for th
 values is the following:
 
 Δj = g′(inj ) ∑kw(j,k)Δk.
+
 
 ## Advantages:
 <ul>
@@ -52,10 +55,6 @@ values is the following:
         which can be a disadvantage in scenarios where such data is scarce or expensive to obtain.
     </li>
      <li>
-        Requires Labelled Data: Backpropagation requires labelled data to train the network,
-        which can be a disadvantage in scenarios where such data is scarce or expensive to obtain.
-    </li>
-     <li>
      Difficulty in Understanding: The internal workings of a neural network using backpropagation can be hard to interpret. As networks grow in size and complexity,
      understanding the exact influence and weight of each input can become challenging, leading to them often being referred to as "black boxes".
     </li>
@@ -64,3 +63,31 @@ values is the following:
         such as the learning rate, number of layers, number of units per layer, etc. These settings can greatly impact the success of the training process and can require a lot of computational resources to optimize.
     </li>
 </ul>
+
+Алгоритм було розроблено Полом Вербосом і називається він "back-propagation". Він дозволяє навчати багатошарові нейронні мережі.
+Головна складність полягає у введенні прихованих шарів в мережу.
+Помилка на виході мережі зрозуміла, але помилка на прихованих шарах здається таємничою, оскільки навчальні дані не вказують,
+яке значення повинні мати приховані вузли. Процес back-propagation виникає безпосередньо з похідної від загального градієнту помилки.
+
+Переваги:
+
+Застосовність: back-propagation можна застосовувати для великої кількості задач, що робить його універсальним алгоритмом для навчання нейронних мереж.
+Він часто використовується в застосунках, таких як розпізнавання зображень, обробка природної мови та інші складні завдання.
+Ефективність: У порівнянні з деякими іншими методами, back-propagation часто є більш обчислювально ефективним для великих нейронних мереж.
+Він обчислює градієнт функції втрати по відношенню до ваг мережі для одного вхідного-вихідного прикладу, і робить це ефективно, на відміну від деяких наївних підходів.
+Глибокі уявлення: back-propagation допомагає надати уявлення про роботу нейронної мережі,
+ідентифікуючи внесок кожного нейрона у кінцеву помилку виходу.
+
+Недоліки:
+1. Локальні мініма: Найбільшою недолікою back-propagation є можливість застрягнути в локальних мінімумах при спробі мінімізувати функцію втрат.
+Однак на практиці, особливо в високорозмірних просторах, це менша проблема, ніж часто припускають.
+2. Вигасаючі / Вибухаючі градієнти: back-propagation може страждати від проблем вигасання або вибухання градієнтів, особливо в
+глибоких нейронних мережах та рекурентних нейронних мережах. Це відбувається, коли градієнти стають або занадто малими,
+або занадто великими, що ускладнює ефективне навчання мережі.
+3. Вимагає маркованих даних: back-propagation потребує маркованих даних для навчання мережі,
+що може бути недоліком в сценаріях, де такі дані рідкісні або дорогі у втрату.
+4. Важкість в розумінні: Внутрішні роботи нейронної мережі з використанням back-propagation можуть бути важкими для інтерпретації.
+При зростанні розміру і складності мережі розуміння точного впливу та ваги кожного входу може стати складним, що часто призводить до їх називання "чорні скриньки".
+5. Налагодження параметрів: Нейронні мережі, навчені з використанням back-propagation, часто потребують
+уважного налаштування гіперпараметрів, таких як швидкість навчання, кількість шарів, кількість одиниць на шарі і т. д.
+Ці налаштування можуть суттєво вплинути на успішність процесу навчання і можуть вимагати багато обчислювальних ресурсів для оптимізації.

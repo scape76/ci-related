@@ -1,7 +1,8 @@
 from numpy.random import randint
-from utils import mcCormick, holder, goldsteinPrice, inbreeding, tournament_selection, panximia, outcrossing
+from utils import inbreeding, tournament_selection, panximia, outcrossing
 from random import random
 from math import fabs
+from shared import goldsteinPrice, mcCormick, holder
 
 
 def decode(bounds, number_of_bits, bitstring):
