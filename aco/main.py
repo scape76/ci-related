@@ -36,7 +36,7 @@ def spread_pheromone(all_paths, n_best):
             pheromones[move] += 1.0 / distances[move]
 
 
-def gen_path_dist(path):
+def get_path_distance(path):
     total_dist = 0
     for ele in path:
         total_dist += distances[ele]
@@ -47,7 +47,7 @@ def generate_all_paths():
     all_paths = []
     for i in range(20):
         path = generate_path(0)
-        all_paths.append((path, gen_path_dist(path)))
+        all_paths.append((path, get_path_distance(path)))
     return all_paths
 
 
@@ -100,7 +100,7 @@ def reshuffle_map(arr, target):
 
 
 if __name__ == '__main__':
-    [best_path, best_length] = aco_algorithm(100)
+    [best_path, best_length] = aco_algorithm(200)
     res = reshuffle_map(best_path, 6)
     print('best path: ', res)
     print('best length: ', best_length)
