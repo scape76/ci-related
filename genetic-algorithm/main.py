@@ -3,6 +3,7 @@ from utils import inbreeding, tournament_selection, panximia, outcrossing
 from random import random
 from math import fabs
 from shared import goldsteinPrice, mcCormick, holder
+import time
 
 
 def decode(bounds, number_of_bits, bitstring):
@@ -145,13 +146,18 @@ if __name__ == '__main__':
     for f_item in fitness_functions:
         print('-----------------------------', selection_functions[1]['name'], f_item['name'],
               '-----------------------------')
+        st = time.time()
+
         best_individual, best_score = genetic_algorithm(population_size, number_of_bits, f_item['function'],
                                                         f_item['bounds'],
                                                         selection_functions[1]['function'], epochs)
+
+        et = time.time()
         error = fabs(best_score - f_item['expected'])
         print('best ', best_individual, best_score)
         print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
         print('error', error)
+        print('speed ', et - st)
         print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
     averaged_error = error / len(selection_functions)

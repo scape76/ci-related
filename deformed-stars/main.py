@@ -1,10 +1,8 @@
 import random
 import math
 import time
-
-
-def mccormick_function(x, y):
-    return math.sin(x + y) + (x - y) * (x - y) - 1.5 * x + 2.5 * y + 1
+from utils import validate_and_transfer
+from shared import mcCormick
 
 
 def create_population(population_size, bounds):
@@ -14,21 +12,6 @@ def create_population(population_size, bounds):
         y = random.uniform(bounds[1][0], bounds[1][1])
         population.append([x, y])
     return population
-
-
-# if point is outside the bounds
-# transfer it
-def validate_and_transfer(point, bounds):
-    x, y = point
-    if x < bounds[0][0]:
-        x += bounds[0][1] - bounds[0][0]
-    if x > bounds[0][1]:
-        x -= bounds[0][1] - bounds[0][0]
-    if y < bounds[1][0]:
-        y += bounds[1][1] - bounds[1][0]
-    if y > bounds[1][1]:
-        y -= bounds[1][1] - bounds[1][0]
-    return [x, y]
 
 
 def parallel_transfer(point, a, alpha, bounds):
@@ -133,6 +116,6 @@ def deformed_stars(population_size, compression_coefficient, epochs, bounds, tar
     return duration, best_result
 
 
-duration, best_result = deformed_stars(20, 2, 1000, [[-1.5, 4], [-3, 4]], mccormick_function)
+duration, best_result = deformed_stars(20, 2, 1000, [[-1.5, 4], [-3, 4]], mcCormick)
 
 print('duration (sec) ', duration, ' best_result ', best_result)

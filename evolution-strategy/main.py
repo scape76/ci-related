@@ -1,6 +1,8 @@
 from numpy import asarray
 from es_comma import es_comma
 from es_plus import es_plus
+from shared import cases
+import time
 from shared import goldsteinPrice, mcCormick, holder
 
 # mu: The number of parents selected each iteration.
@@ -20,28 +22,7 @@ from shared import goldsteinPrice, mcCormick, holder
 lam = 10
 mu = 4
 stepSize = 0.15
-nIter = 10000
-
-cases = [
-    {
-        "bounds": [[-2, 2], [-2, 2]],
-        "fitFunction": goldsteinPrice,
-        "separator": "---------------------------THIS IS GOLDSTEIN-PRICE----------------------",
-        "expected": 3
-    },
-    {
-        "bounds": [[-10, 10], [-10, 10]],
-        "fitFunction": holder,
-        "separator": "---------------------------THIS IS HOLDER----------------------",
-        "expected": -19.2085
-    },
-    {
-        "bounds": [[-1.5, 4], [-3, 4]],
-        "fitFunction": mcCormick,
-        "separator": "---------------------------THIS IS McCormick--------------------------",
-        "expected": -1.9133
-    },
-]
+nIter = 1000
 
 
 def format_num(x):
@@ -52,8 +33,11 @@ def format_num(x):
 if __name__ == '__main__':
     for case in cases:
         print(case["separator"])
-        best, score, average, speed = es_comma(lam, mu, asarray(case["bounds"]), case["fitFunction"], nIter,
+        st = time.time()
+        best, score, average, speed = es_comma(lam, mu, asarray(case["bounds"]), case["function"], nIter,
                                                stepSize,
-                                               case["expected"])
+                                               case["minimum"])
+        et = time.time()
         print(
-            f"f[{format_num(best[0])}; {format_num(best[1])}] = {format_num(score)} ||| ВІДХИЛЕННЯ: {format_num(average)}")
+            f"f[{format_num(best[0])}; {format_num(best[1])}] = {format_num(score)} ||| ВІДХИЛЕННЯ: {format_num(average)}",
+            " speed ", et - st)
