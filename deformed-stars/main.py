@@ -7,11 +7,6 @@ def mccormick_function(x, y):
     return math.sin(x + y) + (x - y) * (x - y) - 1.5 * x + 2.5 * y + 1
 
 
-def levy_13(x, y):
-    return math.sin(3 * math.pi * x) ** 2 + (x - 1) ** 2 * (1 + math.sin(3 * math.pi * y) ** 2) + (y - 1) ** 2 * (
-            1 + math.sin(2 * math.pi * y) ** 2)
-
-
 def create_population(population_size, bounds):
     population = []
     for _ in range(population_size):
